@@ -5,8 +5,11 @@
         <h1 class="header-title">Memo</h1>
         <button class="header-button">+</button>
       </header>
-      <div>
-        [card]
+      <div class="card-container">
+        <div class="card">
+        <p class="card-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit architecto tenetur corporis odit beatae voluptatibus labore totam sapiente quisquam iusto hic minima consequatur culpa vel quis molestias, doloremque veritatis fugit?</p>
+        <p class="card-date">12/12/2024</p>
+      </div>
       </div>
     </div>
   </main>
@@ -45,5 +48,22 @@ header {
   border-radius: 100%;
   background-color: gray;
   color: white;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  width: 225px;
+  height: 225px;
+  padding: 10px;
+  background-color: gray;
+  border-radius: 5%;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
