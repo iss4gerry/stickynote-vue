@@ -32,6 +32,10 @@ import { ref } from 'vue';
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`
   }
 
+  const deleteMemo = (id) => {
+    memos.value = memos.value.filter(memo => memo.id !== id)
+  }
+
 </script>
 
 <template>
@@ -44,7 +48,10 @@ import { ref } from 'vue';
       <div class="card-container">
         <div v-for="memo in memos" :key="memo.id" class="card" :style="{backgroundColor: memo.backgroundColor}">
         <p class="card-content">{{ memo.memo }}</p>
-        <p class="card-date">{{ memo.date }}</p>
+        <div class="card-footer">
+          <p class="card-date">{{ memo.date }}</p>
+          <button @click="deleteMemo(memo.id)">x</button>
+        </div>
       </div>
       </div>
     </div>
@@ -111,6 +118,12 @@ header {
   flex-direction: column;
   justify-content: space-between;
 }
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
 .form-overlay {
   position: absolute;
