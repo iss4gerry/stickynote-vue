@@ -1,10 +1,28 @@
 <script setup>
 import { ref } from 'vue';
  
-  const showForm = ref(true)
+  const showForm = ref(false)
+  const newMemo = ref("")
+  const memos = ref([])
 
   const toggleDisplay = () => {
     showForm.value = !showForm.value
+  }
+
+  const addMemo = () => {
+    memos.value.push({
+      id: Date.now(),
+      memo: newMemo.value,
+      date: new Date().toLocaleDateString('en-GB'),
+      backgroundColor: generateColor(),
+    })
+
+    newMemo.value = ''
+    showForm.value = false
+  }
+
+  const generateColor = () => {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`
   }
 
 </script>
@@ -17,17 +35,17 @@ import { ref } from 'vue';
         <button class="header-button" @click="toggleDisplay">+</button>
       </header>
       <div class="card-container">
-        <div class="card">
-        <p class="card-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit architecto tenetur corporis odit beatae voluptatibus labore totam sapiente quisquam iusto hic minima consequatur culpa vel quis molestias, doloremque veritatis fugit?</p>
-        <p class="card-date">12/12/2024</p>
+        <div v-for="(memo, index) in memos" :key="index" class="card" :style="{backgroundColor: memo.backgroundColor}">
+        <p class="card-content">{{ memo.memo }}</p>
+        <p class="card-date">{{ memo.date }}</p>
       </div>
       </div>
     </div>
     <div class="form-overlay" v-if="showForm">
       <div class="form-modal">
         <button class="form-close-btn" @click="toggleDisplay">&times;</button>
-        <textarea name="memo" id="memo" cols="30" rows="10"></textarea>
-        <button class="form-save-btn" @click="toggleDisplay">save</button>
+        <textarea v-model="newMemo" name="memo" id="memo" cols="30" rows="10"></textarea>
+        <button @click="addMemo" class="form-save-btn">save</button>
       </div>
     </div>
   </main>
@@ -83,6 +101,7 @@ header {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .form-overlay {
