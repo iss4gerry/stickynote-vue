@@ -4,12 +4,19 @@ import { ref } from 'vue';
   const showForm = ref(false)
   const newMemo = ref("")
   const memos = ref([])
+  const errorMessage = ref("")
 
   const toggleDisplay = () => {
     showForm.value = !showForm.value
   }
 
   const addMemo = () => {
+
+    if(!newMemo.value) {
+      errorMessage.value = 'please enter memo'
+      return
+    }
+
     memos.value.push({
       id: Date.now(),
       memo: newMemo.value,
@@ -35,7 +42,7 @@ import { ref } from 'vue';
         <button class="header-button" @click="toggleDisplay">+</button>
       </header>
       <div class="card-container">
-        <div v-for="(memo, index) in memos" :key="index" class="card" :style="{backgroundColor: memo.backgroundColor}">
+        <div v-for="memo in memos" :key="memo.id" class="card" :style="{backgroundColor: memo.backgroundColor}">
         <p class="card-content">{{ memo.memo }}</p>
         <p class="card-date">{{ memo.date }}</p>
       </div>
@@ -44,6 +51,7 @@ import { ref } from 'vue';
     <div class="form-overlay" v-if="showForm">
       <div class="form-modal">
         <button class="form-close-btn" @click="toggleDisplay">&times;</button>
+        <p v-if="errorMessage" class="form-error">{{errorMessage}}</p>
         <textarea v-model="newMemo" name="memo" id="memo" cols="30" rows="10"></textarea>
         <button @click="addMemo" class="form-save-btn">save</button>
       </div>
@@ -149,5 +157,9 @@ header {
   border: none;
   font-size: 25px;
   cursor: pointer;
+}
+
+.form-error {
+  color: red;
 }
 </style>
